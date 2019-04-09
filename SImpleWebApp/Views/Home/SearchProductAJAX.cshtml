@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Search Products ajax";
+}
+
+<header></header>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="~/Content/custom_loader.css" rel="stylesheet">
+
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<form action="">
+    <input type="text" placeholder="Search.." name="search" id="sval">
+    <button type="button" id="sbtn"><i class="fa fa-search"></i></button>
+</form>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+
+@Scripts.Render("~/bundles/jquery")
+
+<script type='text/javascript'>
+
+        //set url for the load function - direct the search value to the correct action in the home controller
+        var url = '@Url.Action("SearchProductPVAJAX", "Home")';
+        $('#sbtn').click(function () {
+
+            //get the value of the search
+            var keyWord = $('#sval').val();
+
+            //show loading gif
+            $('#SearchResult').html('<img src="/Images/Rolling-3s-200px.gif" />');
+
+            //delay table load for 3 seconds and after that replace the div content
+            setTimeout(function () {
+                $("#SearchResult").load(url, { searchText: keyWord });
+            }, 3000);
+
+
+
+            //same idea implemented with queue
+
+            //**************************************************************
+            //* $('#SearchResult').queue("queue1",function () {            *
+            //*    $('#SearchResult').load(url, { searchText: keyWord });  *
+            //*});                                                         *
+            //*$('#SearchResult').delay(2000,"queue1")                     *
+            //*$('#SearchResult').dequeue("queue1");*/                     *
+            //**************************************************************
+                    
+        })
+
+        
+        
+</script>
+
+
+
+<div id="SearchResult">
+    <table>
+        <tr>
+            <th>Product ID</th>
+            <th>Product Name</th>
+            <th>Product Description</th>
+            <th>Stock</th>
+        </tr>
+        @{
+            @model List<SImpleWebApp.Models.T_products>
+
+
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@Model.ElementAt(i).P_id</td>
+                    <td>@Model.ElementAt(i).P_name</td>
+                    <td>@Model.ElementAt(i).P_description</td>
+                    <td>@Model.ElementAt(i).P_stock</td>
+                </tr>
+            }
+        }
+
+    </table>
+</div>
+
+
