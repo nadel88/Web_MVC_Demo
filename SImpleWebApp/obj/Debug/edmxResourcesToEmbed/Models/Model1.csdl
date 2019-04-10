@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="demo_appModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="T_products">
+    <Key>
+      <PropertyRef Name="P_id" />
+      <PropertyRef Name="P_name" />
+      <PropertyRef Name="P_stock" />
+    </Key>
+    <Property Name="P_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="P_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="P_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="P_stock" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="demo_appEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="T_products" EntityType="Self.T_products" />
+  </EntityContainer>
+</Schema>

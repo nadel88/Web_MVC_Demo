@@ -1,6 +1,8 @@
 ﻿
 @{
     ViewBag.Title = "Search Products ajax";
+    @model List<SImpleWebApp.Models.T_products>
+
 }
 
 <header></header>
@@ -46,11 +48,11 @@
             var keyWord = $('#sval').val();
 
             //show loading gif
-            $('#SearchResult').html('<img src="/Images/Rolling-3s-200px.gif" />');
-
+            $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+            
             //delay table load for 3 seconds and after that replace the div content
             setTimeout(function () {
-                $("#SearchResult").load(url, { searchText: keyWord });
+                $("#SearchResult").load(url, { searchText: keyWord});
             }, 3000);
 
 
@@ -64,11 +66,11 @@
             //*$('#SearchResult').delay(2000,"queue1")                     *
             //*$('#SearchResult').dequeue("queue1");*/                     *
             //**************************************************************
-                    
+
         })
 
-        
-        
+
+
 </script>
 
 
@@ -82,9 +84,9 @@
             <th>Stock</th>
         </tr>
         @{
-            @model List<SImpleWebApp.Models.T_products>
+            //@model List<SImpleWebApp.Models.T_products>
 
-
+       
             for (int i = 0; i < Model.Count; i++)
             {
                 <tr>

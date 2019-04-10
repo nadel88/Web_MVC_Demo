@@ -31,5 +31,12 @@
 
 #loadergif {
     position: relative;
+    bottom: -10px;
+    left: 500px;
+}
+
+#loadergifnotused {
+    position: relative;
     bottom: -200px;
+    right: 100px
 }
