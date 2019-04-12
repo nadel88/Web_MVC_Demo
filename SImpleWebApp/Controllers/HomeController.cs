@@ -75,7 +75,6 @@ namespace SImpleWebApp.Controllers
                    
             return View(plist);
         }
-
         public PartialViewResult SearchProductPVAJAX(string searchText)
         {
             
@@ -109,6 +108,42 @@ namespace SImpleWebApp.Controllers
             
             return PartialView(plist);
         }
-        
+    
+        public PartialViewResult AddProductPVAJAX(string pName,string pDesc,string pStock)
+        {
+            List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
+
+            T_products newProduct = new T_products();
+            newProduct.P_name = pName;
+            newProduct.P_description = pDesc;
+            try
+            {
+                newProduct.P_stock = int.Parse(pStock);
+            }
+            catch
+            {
+                throw new Exception();
+            }
+
+            DB.T_products.Add(newProduct);
+            int res = DB.SaveChanges();
+
+            if(res > 0)
+            {
+                Response.Write("new product was added successfuly");
+            }
+            else
+            {
+                Response.Write("Operation Failed");
+            }
+
+            var query = from st in DB.T_products
+                        where st.P_name.Contains("")
+                        select st;
+
+            plist = query.ToList();
+
+            return PartialView(plist);
+        }
     }
 }
