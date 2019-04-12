@@ -222,7 +222,6 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\SearchProduct.cshtml" />
     <Content Include="Views\Shared\SearchProductPVAJAX.cshtml" />
-    <Content Include="Views\Shared\AddProductPVAJAX.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

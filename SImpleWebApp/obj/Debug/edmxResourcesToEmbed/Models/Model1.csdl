@@ -3,15 +3,13 @@
   <EntityType Name="T_products">
     <Key>
       <PropertyRef Name="P_id" />
-      <PropertyRef Name="P_name" />
-      <PropertyRef Name="P_stock" />
     </Key>
     <Property Name="P_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="P_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="P_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="P_stock" Type="Int32" Nullable="false" />
   </EntityType>
-  <EntityContainer Name="demo_appEntities" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="demo_appEntities1" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="T_products" EntityType="Self.T_products" />
   </EntityContainer>
 </Schema>

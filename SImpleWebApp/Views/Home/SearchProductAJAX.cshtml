@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Search Products ajax";
     @model List<SImpleWebApp.Models.T_products>
+    @Scripts.Render("~/bundles/jquery")
 
 }
 
@@ -12,21 +13,6 @@
 
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
-
-<form action="" id="customform">
-    <input type="text" placeholder="Search.." name="search" id="sval">
-    <button type="button" id="sbtn"><i class="fa fa-search"></i></button>
-    <button type="button" id="addbtn"><i class="btn-default"></i>Add Item</button>
-    <button type="button" id="Removebtn"><i class="btn-default"></i>Remove Item</button>
-    <button type="button" id="editbtn"><i class="btn-default"></i>Edit Item</button>    
-</form>
-
-<div id="hiddenAddItem" style="display: none;">
-    <input type="text" placeholder="Product Name..." name="productName" id="pnameval">
-    <input type="text" placeholder="Product Description..." name="productDesc" id="pdescval">
-    <input type="text" placeholder="Product Stock..." name="productStock" id="pstockval">
-    <button type="button" id="createProductBtn"><i class="btn-default"></i>Create New Item</button>
-</div>
 
 <style>
     table {
@@ -46,23 +32,58 @@
     }
 </style>
 
+<script>
+            var url =  '@Url.Action("SearchProductPVAJAX", "Home")';
+            var url2 = '@Url.Action("AddProductPVAJAX", "Home")';
+            var url3 = '@Url.Action("RemoveProductPVAJAX", "Home")';
+</script>
 
-@Scripts.Render("~/bundles/jquery")
+<form action="" id="customform">
+    <input type="text" placeholder="Search.." name="search" id="sval">
+    <button type="button" id="sbtn"><i class="fa fa-search"></i></button>
+    <button type="button" id="addbtn"><i class="btn-default"></i>Add Item</button>
+    <button type="button" id="removebtn"><i class="btn-default"></i>Remove Item</button>
+    <button type="button" id="editbtn"><i class="btn-default"></i>Edit Item</button>
+</form>
+
+<div id="hiddenAddItem" style="display: none;">
+    <input type="text" placeholder="Product Name..." name="productName" id="pnameval">
+    <input type="text" placeholder="Product Description..." name="productDesc" id="pdescval">
+    <input type="text" placeholder="Product Stock..." name="productStock" id="pstockval">
+    <button type="button" id="createProductBtn"><i class="btn-default"></i>Create New Item</button>
+</div>
+<div id="hiddenEditItem" style="display: none;">
+    <input type="text" placeholder="Product Name..." name="productName" id="pnamevaledit">
+    <input type="text" placeholder="Product Description..." name="productDesc" id="pdescvaledit">
+    <input type="text" placeholder="Product Stock..." name="productStock" id="pstockvaledit">
+    <button type="button" id="EditProductBtn"><i class="btn-default"></i>Edit Item</button>
+</div>
+
+
+<div id="SearchResult">
+    <script type='text/javascript'>
+        //present the whole list of products the first time the page is loaded
+        $("#SearchResult").load(url, { searchText: "" });
+    </script>
+</div>
+
+
+
+
 
 <script type='text/javascript'>
     //debugger;
         //set url for the load function - direct the search value to the correct action in the home controller
-            var url = url = '@Url.Action("SearchProductPVAJAX", "Home")';
-            var url2 = '@Url.Action("AddProductPVAJAX", "Home")';
+            
 
         $('#sbtn').click(function () {
-           
+
             //get the value of the search
             var keyWord = $('#sval').val();
 
             //show loading gif
             $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
-            
+
             //delay table load for 3 seconds and after that replace the div content
             setTimeout(function () {
                 $("#SearchResult").load(url, { searchText: keyWord});
@@ -84,36 +105,48 @@
 
     $("#addbtn").click(function () {
 
-        $("#hiddenAddItem").show();        
+        $("#hiddenAddItem").show();
+    })
+    $("#editbtn").click(function () {
+
+        $("#hiddenEditItem").show();
     })
 
 
     $("#createProductBtn").click(function () {
-        
-        //pnameval | pdescval |  pstockval | createbtn 
+
+        //pnameval | pdescval |  pstockval | createbtn
         $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
         var pname = $("#pnameval").val();
-        var pdesc = $("#pdescval").val(); 
+        var pdesc = $("#pdescval").val();
         var pstock = $("#pstockval").val();
         setTimeout(function () {
                 $("#SearchResult").load(url2, { pName: pname, pDesc: pdesc, pStock: pstock});
         }, 3000);
-        
-    })
-    
 
+    })
+
+
+   
+
+
+    /*$("#removebtn").click(function () {
+
+            var productsIDs = [];
+            $.each($("input[name='rowcheckbox']:checked"), function(){
+                productsIDs.push($(this).val());
+            });
+        setTimeout(function () {
+                $("#SearchResult").load(url3, { pids: productsIDs);
+        }, 3000);
+    })*/
 
 
 </script>
 
 
 
-<div id="SearchResult">
-    <script type='text/javascript'>
-        //present the whole list of products the first time the page is loaded
-         $("#SearchResult").load(url, { searchText: ""});
-    </script>
-</div>
+
 
 
 

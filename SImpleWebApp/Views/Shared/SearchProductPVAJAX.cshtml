@@ -1,6 +1,42 @@
 ﻿<link href="~/Content/custom_loader.css" rel="stylesheet">
 <link href="~/Content/CustomItems.css" rel="stylesheet">
 
+<script>
+    var favorite = [];   
+    $("input[type='checkbox']").click(function () {
+        
+        $.each($("input[name='rowcheckbox']:checked"), function () {            
+            favorite.push($(this).val());
+        });
+       // alert("My favourite sports are: " + favorite.join(", "));
+    });
+
+    $("#removebtn").click(function () {
+        var url4 = '@Url.Action("RemoveProductPVAJAX", "Home")';
+        //alert("My favourite sports are: " + favorite.toString());
+        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+        setTimeout(function () {
+                $("#SearchResult").load(url4, { pids: favorite});
+        }, 3000);
+    })
+
+    
+    $("#EditProductBtn").click(function () {
+
+        var url5 = '@Url.Action("EditProductPVAJAX", "Home")';
+        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+        var pname = $("#pnamevaledit").val();
+        var pdesc = $("#pdescvaledit").val();
+        var pstock = $("#pstockvaledit").val();
+        setTimeout(function () {
+            $("#SearchResult").load(url5, { pid: favorite[0], altName: pname, altDesc: pdesc, altStock: pstock });
+        }, 3000);
+    })
+
+
+
+</script>
+
 <table id="ptable">
     <tr>
         <th>Selction</th>
@@ -16,7 +52,7 @@
         {
             rowname = "row " + i;
             <tr>
-                <td><input type="checkbox" id="SelectionBoxCustom" name="@rowname" value="@rowname"></td>
+                <td><input type="checkbox" id="SelectionBoxCustom" name="rowcheckbox" value="@Model.ElementAt(i).P_id"></td>
                 <td>@Model.ElementAt(i).P_id</td>
                 <td>@Model.ElementAt(i).P_name</td>
                 <td>@Model.ElementAt(i).P_description</td>
@@ -26,4 +62,6 @@
     }
 
 </table>
+
+
 

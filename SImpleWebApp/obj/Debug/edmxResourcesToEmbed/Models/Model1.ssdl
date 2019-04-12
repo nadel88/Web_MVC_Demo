@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="demo_appModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'demo_app.dbo.T_products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
   <EntityType Name="T_products">
     <Key>
       <PropertyRef Name="P_id" />
-      <PropertyRef Name="P_name" />
-      <PropertyRef Name="P_stock" />
     </Key>
     <Property Name="P_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="P_name" Type="text" Nullable="false" />
@@ -14,13 +10,6 @@ warning 6002: The table/view 'demo_app.dbo.T_products' does not have a primary k
     <Property Name="P_stock" Type="int" Nullable="false" />
   </EntityType>
   <EntityContainer Name="demo_appModelStoreContainer">
-    <EntitySet Name="T_products" EntityType="Self.T_products" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [T_products].[P_id] AS [P_id], 
-    [T_products].[P_name] AS [P_name], 
-    [T_products].[P_description] AS [P_description], 
-    [T_products].[P_stock] AS [P_stock]
-    FROM [dbo].[T_products] AS [T_products]</DefiningQuery>
-    </EntitySet>
+    <EntitySet Name="T_products" EntityType="Self.T_products" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>
