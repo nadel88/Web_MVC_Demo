@@ -2,6 +2,7 @@
 <link href="~/Content/CustomItems.css" rel="stylesheet">
 
 <script>
+   
     var favorite = [];   
     $("input[type='checkbox']").click(function () {
         
@@ -22,12 +23,28 @@
 
     
     $("#EditProductBtn").click(function () {
-
+                
         var url5 = '@Url.Action("EditProductPVAJAX", "Home")';
-        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');        
         var pname = $("#pnamevaledit").val();
         var pdesc = $("#pdescvaledit").val();
-        var pstock = $("#pstockvaledit").val();
+        var pstock ;
+        if ($("#pstockvaledit").val().length > 0) {
+            pstock = $("#pstockvaledit").val();
+        }
+        else
+        {
+            pstock = -1;
+        }
+           
+
+        /*if (isNaN($("#pstockvaledit").val())) {
+            pstock = -1;
+        }
+        else {
+            pstock = $("#pstockvaledit").val();
+        }*/
+                            
         setTimeout(function () {
             $("#SearchResult").load(url5, { pid: favorite[0], altName: pname, altDesc: pdesc, altStock: pstock });
         }, 3000);
@@ -56,7 +73,7 @@
                 <td>@Model.ElementAt(i).P_id</td>
                 <td>@Model.ElementAt(i).P_name</td>
                 <td>@Model.ElementAt(i).P_description</td>
-                <td>@Model.ElementAt(i).P_stock</td>
+                <td>@Model.ElementAt(i).P_stock</td>              
             </tr>
         }
     }

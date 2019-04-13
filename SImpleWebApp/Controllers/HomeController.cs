@@ -23,30 +23,7 @@ namespace SImpleWebApp.Controllers
 
             return View();
         }
-        public ActionResult Products()
-        {
-            
-            List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
-
-            plist = DB.T_products.ToList();
-
-            ViewBag.Message = "Your contact page.";
-
-            return View(plist);
-        }
-        public ActionResult SearchProduct(string search)
-        {
-            ViewBag.Message = "Product Search Result Page.";
-            List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
-            var query = from st in DB.T_products
-                        where st.P_name.Contains(search) 
-                       select st;
-
-            plist = query.ToList();
-
-
-            return View(plist);
-        }
+       
         public ActionResult SearchProductAJAX(string searchText)
         {
             ViewBag.Message = "AJAX Search.";
@@ -55,6 +32,9 @@ namespace SImpleWebApp.Controllers
             var query = from st in DB.T_products
                         where st.P_name.Contains(searchText)
                         select st;
+
+
+            plist = query.ToList();
 
             if (plist.Count == 0)
             {
@@ -69,11 +49,7 @@ namespace SImpleWebApp.Controllers
             {
                 plist = DB.T_products.ToList();
             }
-            else
-            {                               
-                plist = query.ToList();
-            }
-                   
+                               
             return View(plist);
         }
         public PartialViewResult SearchProductPVAJAX(string searchText)
@@ -87,6 +63,7 @@ namespace SImpleWebApp.Controllers
                         where st.P_name.Contains(searchText)
                         select st;
 
+            plist = query.ToList();
             //check if search value did not match in the P_name table
             //and check the P_description table
             if (plist.Count == 0)
@@ -101,12 +78,7 @@ namespace SImpleWebApp.Controllers
             if (plist.Count == 0)
             {
                 plist = DB.T_products.ToList();
-            }
-            else
-            {
-                plist = query.ToList();
-            }
-            
+            }                        
             return PartialView(plist);
         }
     
@@ -206,15 +178,23 @@ namespace SImpleWebApp.Controllers
             {
                 tp.P_description = altDesc;
             }
-            if(altStock < 0)
+            
+            if(altStock != -1)
             {
+                tp.P_stock = altStock;
+            }
+            
+            
+            /*if(altStock < 0)
+            {
+
                 tp.P_stock = 0;
             }
             else
             {
                 tp.P_stock = altStock;
-            }
-            
+            }*/
+
             DB.T_products.AddOrUpdate(tp);
             int res = DB.SaveChanges();
 

@@ -81,3 +81,4 @@ E:\Dev\Projects\Web\Simple_Project\SImpleWebApp\SImpleWebApp\obj\Debug\SImpleWeb
 E:\Dev\Projects\Web\Simple_Project\SImpleWebApp\SImpleWebApp\obj\Debug\SImpleWebApp.csproj.CopyComplete
 E:\Dev\Projects\Web\Simple_Project\SImpleWebApp\SImpleWebApp\obj\Debug\SImpleWebApp.dll
 E:\Dev\Projects\Web\Simple_Project\SImpleWebApp\SImpleWebApp\obj\Debug\SImpleWebApp.pdb
+E:\Dev\Projects\Web\Simple_Project\SImpleWebApp\SImpleWebApp\obj\Debug\SImpleWebApp.csprojAssemblyReference.cache
