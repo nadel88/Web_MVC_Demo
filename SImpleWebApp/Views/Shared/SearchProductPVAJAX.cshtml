@@ -13,7 +13,7 @@
     });
 
     $("#removebtn").click(function () {
-        var url4 = '@Url.Action("RemoveProductPVAJAX", "Home")';
+        var url4 = '@Url.Action("RemoveProductPVAJAX", "ProductsManage")';
         //alert("My favourite sports are: " + favorite.toString());
         $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
         setTimeout(function () {
@@ -24,7 +24,7 @@
     
     $("#EditProductBtn").click(function () {
                 
-        var url5 = '@Url.Action("EditProductPVAJAX", "Home")';
+        var url5 = '@Url.Action("EditProductPVAJAX", "ProductsManage")';
         $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');        
         var pname = $("#pnamevaledit").val();
         var pdesc = $("#pdescvaledit").val();
