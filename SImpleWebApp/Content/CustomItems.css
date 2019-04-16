@@ -2,4 +2,14 @@
     transform: scale(1.5);
 }
 
+.btn-disable-custom {
+    color: Grey;
+}
+.btn-regular-custom {
+    color: black;
+}
+
+.marg-left-items {
+    margin-left: 20px;
+}
 

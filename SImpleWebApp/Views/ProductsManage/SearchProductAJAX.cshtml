@@ -42,8 +42,9 @@
     <input type="text" placeholder="Search.." name="search" id="sval">
     <button type="button" id="sbtn"><i class="fa fa-search"></i></button>
     <button type="button" id="addbtn"><i class="btn-default"></i>Add Item</button>
-    <button type="button" id="removebtn"><i class="btn-default"></i>Remove Item</button>
-    <button type="button" id="editbtn"><i class="btn-default"></i>Edit Item</button>
+    <button type="button" id="removebtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Remove Item</button>
+    <button type="button" id="editbtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Edit Item</button>
+    <i class="marg-left-items">Number of products selected :@Html.Label(" ", new { id = "chkcount" })</i>
 </form>
 
 <div id="hiddenAddItem" style="display: none;">
@@ -106,10 +107,12 @@
     $("#addbtn").click(function () {
 
         $("#hiddenAddItem").show();
+        $("#hiddenEditItem").hide();        
     })
     $("#editbtn").click(function () {
 
         $("#hiddenEditItem").show();
+        $("#hiddenAddItem").hide();
     })
 
 
@@ -123,6 +126,16 @@
         setTimeout(function () {
                 $("#SearchResult").load(url2, { pName: pname, pDesc: pdesc, pStock: pstock});
         }, 3000);
+
+        $("#hiddenAddItem").hide();
+
+        //initialize the array and checkbox state after db action
+        $.each($("input[name='rowcheckbox']:checked"), function () {            
+            $(this).attr(":not(:checked)");  
+            $('#chkcount').text(0);
+            favorite = [];
+        });
+        
 
     })
 
