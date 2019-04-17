@@ -13,10 +13,10 @@ namespace SImpleWebApp.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class demo_appEntities : DbContext
+    public partial class demo_appEntities1 : DbContext
     {
-        public demo_appEntities()
-            : base("name=demo_appEntities")
+        public demo_appEntities1()
+            : base("name=demo_appEntities1")
         {
         }
     

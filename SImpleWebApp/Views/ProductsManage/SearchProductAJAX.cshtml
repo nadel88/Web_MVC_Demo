@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "Search Products ajax";
+    @model List<SImpleWebApp.Models.T_products>
+    @Scripts.Render("~/bundles/jquery")
+
+}
+
+<header></header>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="~/Content/custom_loader.css" rel="stylesheet">
+
+
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+
+<script>
+            var url =  '@Url.Action("SearchProductPVAJAX", "ProductsManage")';
+            var url2 = '@Url.Action("AddProductPVAJAX", "ProductsManage")';
+            var url3 = '@Url.Action("RemoveProductPVAJAX", "ProductsManage")';
+</script>
+
+<form action="" id="customform">
+    <input type="text" placeholder="Search.." name="search" id="sval">
+    <button type="button" id="sbtn"><i class="fa fa-search"></i></button>
+    <button type="button" id="addbtn"><i class="btn-default"></i>Add Item</button>
+    <button type="button" id="removebtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Remove Item</button>
+    <button type="button" id="editbtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Edit Item</button>
+    <i class="marg-left-items">Number of products selected :@Html.Label(" ", new { id = "chkcount" })</i>
+</form>
+
+<div id="hiddenAddItem" style="display: none;">
+    <input type="text" placeholder="Product Name..." name="productName" id="pnameval">
+    <input type="text" placeholder="Product Description..." name="productDesc" id="pdescval">
+    <input type="number" placeholder="Product Stock..." name="productStock" id="pstockval">
+    <button type="button" id="createProductBtn"><i class="btn-default"></i>Create New Item</button>
+</div>
+<div id="hiddenEditItem" style="display: none;">
+    <input type="text" placeholder="Product Name..." name="productName" id="pnamevaledit">
+    <input type="text" placeholder="Product Description..." name="productDesc" id="pdescvaledit">
+    <input type="number" placeholder="Product Stock..." name="productStock" id="pstockvaledit">
+    <button type="button" id="EditProductBtn"><i class="btn-default"></i>Edit Item</button>
+</div>
+
+
+<div id="SearchResult">
+    <script type='text/javascript'>
+        //present the whole list of products the first time the page is loaded
+        $("#SearchResult").load(url, { searchText: "" });
+    </script>
+</div>
+
+
+
+
+
+<script type='text/javascript'>
+    
+        //set url for the load function - direct the search value to the correct action in the home controller
+            
+
+        $('#sbtn').click(function () {
+
+            //get the value of the search
+            var keyWord = $('#sval').val();
+
+            //show loading gif
+            $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+
+            //delay table load for 3 seconds and after that replace the div content
+            setTimeout(function () {
+                $("#SearchResult").load(url, { searchText: keyWord});
+            }, 3000);
+
+
+
+            //same idea implemented with queue
+
+            //**************************************************************
+            //* $('#SearchResult').queue("queue1",function () {            *
+            //*    $('#SearchResult').load(url, { searchText: keyWord });  *
+            //*});                                                         *
+            //*$('#SearchResult').delay(2000,"queue1")                     *
+            //*$('#SearchResult').dequeue("queue1");*/                     *
+            //**************************************************************
+
+        })
+
+    $("#addbtn").click(function () {
+
+        $("#pnameval").val('');
+        $("#pdescval").val('');
+        $("#pstockval").val('');
+        $("#hiddenAddItem").show();
+        $("#hiddenEditItem").hide();        
+    })
+    $("#editbtn").click(function () {
+
+        $("#hiddenEditItem").show();
+        $("#hiddenAddItem").hide();
+    })
+
+
+    $("#createProductBtn").click(function () {
+        
+        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+        var pname = $("#pnameval").val();
+        var pdesc = $("#pdescval").val();
+        var pstock = $("#pstockval").val();
+        setTimeout(function () {
+            $("#SearchResult").load(url2, { pName: pname, pDesc: pdesc, pStock: pstock });
+            //reload page to prevent duplicate records and other issues
+            location.reload();
+        }, 3000);
+
+        $("#hiddenAddItem").hide();
+
+        //initialize the array and checkbox state after db action
+        $.each($("input[name='rowcheckbox']:checked"), function () {            
+            $(this).attr(":not(:checked)");  
+            $('#chkcount').text(0);
+            favorite = [];
+        });               
+    })
+
+
+   
+
+
+    /*$("#removebtn").click(function () {
+
+            var productsIDs = [];
+            $.each($("input[name='rowcheckbox']:checked"), function(){
+                productsIDs.push($(this).val());
+            });
+        setTimeout(function () {
+                $("#SearchResult").load(url3, { pids: productsIDs);
+        }, 3000);
+    })*/
+
+
+</script>
+
+
+
+
+
+
+
+

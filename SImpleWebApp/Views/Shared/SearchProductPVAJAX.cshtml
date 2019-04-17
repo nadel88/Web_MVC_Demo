@@ -1,8 +1,126 @@
 ﻿<link href="~/Content/custom_loader.css" rel="stylesheet">
-<!--<div id="loadergif" class="loader" style="margin:0 auto; margin-bottom: -30px"></div>-->
+<link href="~/Content/CustomItems.css" rel="stylesheet">
+
+<script>
+   
+    var favorite = [];
+    $('#chkcount').text(favorite.length);
+    //when checking/unchecking a checkbox push/remove a value into/from the array 
+    $("input[type='checkbox']").click(function () {       
+        /*$.each($("input[name='rowcheckbox']:checked"), function () {            
+            favorite.push($(this).val());                      
+        });
+
+        $.each($("input[name='rowcheckbox']:not(:checked)"), function () {            
+            favorite.pop($(this).val());                     
+        });*/
+
+        if ($(this).is(":checked"))
+        {
+            favorite.push($(this).val());
+            $('#chkcount').text(favorite.length);
+            $("#hiddenEditItem").hide();
+            $("#hiddenAddItem").hide();
+        }
+        else if ($(this).is(":not(:checked)"))
+        {
+            var tempid = $(this).val();
+            var tempindex;
+            var i;
+            for (i = 0; i < favorite.length; i++) {
+                if (favorite[i] == tempid)
+                    tempindex = i;  
+            }            
+            favorite.splice(tempindex, 1);
+            $('#chkcount').text(favorite.length);
+            $("#hiddenEditItem").hide();
+            $("#hiddenAddItem").hide();
+        }
+
+        if (favorite.length > 0) {
+            //enable only the remove button
+            if (favorite.length > 1)
+            {
+                $("#removebtn").removeClass("btn-disable-custom").removeAttr("disabled");
+                $("#editbtn").addClass("btn-disable-custom");
+            }
+            //enable both remove and edit buttons
+            else if (favorite.length == 1)
+            {
+                $("#removebtn").removeClass("btn-disable-custom").removeAttr("disabled");
+                $("#editbtn").removeClass("btn-disable-custom").removeAttr("disabled");
+            }                         
+        }
+        //disable both buttons
+        else if (favorite.length == 0) {
+            $("#editbtn").addClass("btn-disable-custom").attr("disabled");
+            $("#removebtn").addClass("btn-disable-custom").attr("disabled");
+        }      
+    });
+
+    //perform action :  remove chosen item 
+    $("#removebtn").click(function () {        
+        var url4 = '@Url.Action("RemoveProductPVAJAX", "ProductsManage")';
+        //alert("My favourite sports are: " + favorite.toString());
+        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+        setTimeout(function () {
+            $("#SearchResult").load(url4, { pids: favorite });
+            //reload page to prevent duplicate records and other issues
+             location.reload();
+        }, 3000);
+
+        //initialize the array and checkbox state after db action
+        $.each($("input[name='rowcheckbox']:checked"), function () {            
+            $(this).attr(":not(:checked)");  
+            $('#chkcount').text(0);
+            favorite = [];
+        });
+    });
+
+    //perform action : edit chosen item
+    $("#EditProductBtn").click(function () {
+
+        var url5 = '@Url.Action("EditProductPVAJAX", "ProductsManage")';
+        $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
+        var pname = $("#pnamevaledit").val();
+        var pdesc = $("#pdescvaledit").val();
+        var pstock;
+        if ($("#pstockvaledit").val().length > 0) {
+            pstock = $("#pstockvaledit").val();
+        }
+        else {
+            pstock = -1;
+        }        
+        setTimeout(function () {
+            $("#SearchResult").load(url5, { pid: favorite[0], altName: pname, altDesc: pdesc, altStock: pstock });
+            //reload page to prevent duplicate records and other issues
+            location.reload();
+        }, 3000); 
+
+        //initialize the array and checkbox state after db action
+        $.each($("input[name='rowcheckbox']:checked"), function () {            
+            $(this).attr(":not(:checked)");  
+            $('#chkcount').text(0);
+            favorite = [];
+        });
+
+        $("#pnamevaledit").val('');
+        $("#pdescvaledit").val('');
+        $("#pstockvaledit").val('');
+
+
+    });
+   
+    
+    
+
+
+
+</script>
 
 <table id="ptable">
     <tr>
+        <th>Selction</th>
         <th>Product ID</th>
         <th>Product Name</th>
         <th>Product Description</th>
@@ -10,17 +128,21 @@
     </tr>
     @{
         @model List<SImpleWebApp.Models.T_products>
-
-
+        string rowname = "";
         for (int i = 0; i < Model.Count; i++)
         {
+            rowname = "row " + i;
             <tr>
+                <td><input type="checkbox" id="SelectionBoxCustom" name="rowcheckbox" value="@Model.ElementAt(i).P_id"></td>
                 <td>@Model.ElementAt(i).P_id</td>
                 <td>@Model.ElementAt(i).P_name</td>
                 <td>@Model.ElementAt(i).P_description</td>
-                <td>@Model.ElementAt(i).P_stock</td>
+                <td>@Model.ElementAt(i).P_stock</td>              
             </tr>
         }
     }
 
 </table>
+
+
+
