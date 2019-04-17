@@ -11,7 +11,7 @@ namespace SImpleWebApp.Controllers
     public class ProductsManageController : Controller
     {
         //simpleEntities2 DB = new simpleEntities2();
-        demo_appEntities1 DB = new demo_appEntities1();
+       
         public ActionResult Index()
         {
             return View();
@@ -26,6 +26,7 @@ namespace SImpleWebApp.Controllers
        
         public ActionResult SearchProductAJAX(string searchText)
         {
+            demo_appEntities1 DB = new demo_appEntities1();
             ViewBag.Message = "AJAX Search.";
             List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
           
@@ -56,7 +57,7 @@ namespace SImpleWebApp.Controllers
         {
             
             ViewBag.Message = "Product Search Result Page.";
-            
+            demo_appEntities1 DB = new demo_appEntities1();
             List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
 
             var query = from st in DB.T_products
@@ -83,8 +84,16 @@ namespace SImpleWebApp.Controllers
         }
     
         public PartialViewResult AddProductPVAJAX(string pName,string pDesc,string pStock)
-        {            
+        {
+            demo_appEntities1 DB = new demo_appEntities1();
+            
+
             List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
+            var query = from st in DB.T_products
+                        where st.P_name.Contains("")
+                        select st;
+
+            plist = query.ToList();
 
             if (pName == "" || pDesc == "" || pStock == null)
             {
@@ -93,21 +102,33 @@ namespace SImpleWebApp.Controllers
             }
 
 
-            T_products newProduct = new T_products();
+            T_products newProduct = new T_products();           
             newProduct.P_name = pName;
             newProduct.P_description = pDesc;
             try
             {
                 newProduct.P_stock = int.Parse(pStock);
             }
-            catch
+            catch (Exception e)
             {
-                throw new Exception();
-            }           
+                throw e;
+            }
+            if (DB.T_products.Find(newProduct.P_id) != null)
+            {
+                return PartialView(plist);
+            }
             DB.T_products.Add(newProduct);
-            int res = DB.SaveChanges();
+            int res;
+            try
+            {
+                res = DB.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
-            if(res > 0)
+            if (res > 0)
             {
                 Response.Write("new product was added successfuly");
             }
@@ -116,18 +137,14 @@ namespace SImpleWebApp.Controllers
                 Response.Write("Operation Failed");
             }
 
-            var query = from st in DB.T_products
-                        where st.P_name.Contains("")
-                        select st;
-
-            plist = query.ToList();
+           
 
             return PartialView("SearchProductAJAX", plist);
         }
 
         public PartialViewResult RemoveProductPVAJAX(int [] pids)
         {
-
+            demo_appEntities1 DB = new demo_appEntities1();
             List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
             List<SImpleWebApp.Models.T_products> plistToRem = new List<SImpleWebApp.Models.T_products>();
 
@@ -144,8 +161,16 @@ namespace SImpleWebApp.Controllers
 
           
             DB.T_products.RemoveRange(plistToRem);
-            int res = DB.SaveChanges();
-
+            int res;
+            try
+            {
+                res = DB.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+            
             if (res > 0)
             {
                 Response.Write("new product was removed successfuly");
@@ -166,6 +191,7 @@ namespace SImpleWebApp.Controllers
 
         public PartialViewResult EditProductPVAJAX(int pid,string altName,string altDesc,int altStock)
         {
+            demo_appEntities1 DB = new demo_appEntities1();
             List<SImpleWebApp.Models.T_products> plist = new List<SImpleWebApp.Models.T_products>();
 
             T_products tp = DB.T_products.Find(pid);
@@ -183,20 +209,17 @@ namespace SImpleWebApp.Controllers
             {
                 tp.P_stock = altStock;
             }
-            
-            
-            /*if(altStock < 0)
-            {
-
-                tp.P_stock = 0;
-            }
-            else
-            {
-                tp.P_stock = altStock;
-            }*/
-
+                                    
             DB.T_products.AddOrUpdate(tp);
-            int res = DB.SaveChanges();
+            int res;
+            try
+            {
+                res = DB.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
             if (res > 0)
             {

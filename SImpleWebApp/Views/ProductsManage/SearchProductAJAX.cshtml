@@ -73,7 +73,7 @@
 
 
 <script type='text/javascript'>
-    //debugger;
+    
         //set url for the load function - direct the search value to the correct action in the home controller
             
 
@@ -106,6 +106,9 @@
 
     $("#addbtn").click(function () {
 
+        $("#pnameval").val('');
+        $("#pdescval").val('');
+        $("#pstockval").val('');
         $("#hiddenAddItem").show();
         $("#hiddenEditItem").hide();        
     })
@@ -117,14 +120,15 @@
 
 
     $("#createProductBtn").click(function () {
-
-        //pnameval | pdescval |  pstockval | createbtn
+        
         $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
         var pname = $("#pnameval").val();
         var pdesc = $("#pdescval").val();
         var pstock = $("#pstockval").val();
         setTimeout(function () {
-                $("#SearchResult").load(url2, { pName: pname, pDesc: pdesc, pStock: pstock});
+            $("#SearchResult").load(url2, { pName: pname, pDesc: pdesc, pStock: pstock });
+            //reload page to prevent duplicate records and other issues
+            location.reload();
         }, 3000);
 
         $("#hiddenAddItem").hide();
@@ -134,9 +138,7 @@
             $(this).attr(":not(:checked)");  
             $('#chkcount').text(0);
             favorite = [];
-        });
-        
-
+        });               
     })
 
 

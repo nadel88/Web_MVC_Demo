@@ -65,6 +65,8 @@
         $('#SearchResult').html('<img id="loadergif" src="/Images/Rolling-3s-200px.gif" />');
         setTimeout(function () {
             $("#SearchResult").load(url4, { pids: favorite });
+            //reload page to prevent duplicate records and other issues
+             location.reload();
         }, 3000);
 
         //initialize the array and checkbox state after db action
@@ -91,6 +93,8 @@
         }        
         setTimeout(function () {
             $("#SearchResult").load(url5, { pid: favorite[0], altName: pname, altDesc: pdesc, altStock: pstock });
+            //reload page to prevent duplicate records and other issues
+            location.reload();
         }, 3000); 
 
         //initialize the array and checkbox state after db action
@@ -100,6 +104,9 @@
             favorite = [];
         });
 
+        $("#pnamevaledit").val('');
+        $("#pdescvaledit").val('');
+        $("#pstockvaledit").val('');
 
 
     });
