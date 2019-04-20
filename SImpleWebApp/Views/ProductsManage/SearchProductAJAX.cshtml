@@ -42,8 +42,8 @@
     <input type="text" placeholder="Search.." name="search" id="sval">
     <button type="button" id="sbtn"><i class="fa fa-search"></i></button>
     <button type="button" id="addbtn"><i class="btn-default"></i>Add Item</button>
-    <button type="button" id="removebtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Remove Item</button>
-    <button type="button" id="editbtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Edit Item</button>
+    <button type="button" id="removebtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Remove Items</button>
+    <!--<button type="button" id="editbtn" disabled class="btn-disable-custom"><i class="btn-default"></i>Edit Item</button>-->
     <i class="marg-left-items">Number of products selected :@Html.Label(" ", new { id = "chkcount" })</i>
 </form>
 
@@ -105,19 +105,31 @@
         })
 
     $("#addbtn").click(function () {
-
+        //clean the favorite array once the add button was clicked
+        favorite = [];
         $("#pnameval").val('');
         $("#pdescval").val('');
         $("#pstockval").val('');
         $("#hiddenAddItem").show();
         $("#hiddenEditItem").hide();        
     })
-    $("#editbtn").click(function () {
 
+    //old edit functionality - where button was in main view
+    /*$("#editbtn").click(function () {        
         $("#hiddenEditItem").show();
         $("#hiddenAddItem").hide();
-    })
+    })*/
 
+
+    //new edit functionality - where button is in each table row in partial view
+    $(document).on('click', '#editbtn', function () {
+        //clean the favorite array once the edit button was clicked
+        favorite = [];
+        $("#hiddenEditItem").show();
+        $("#hiddenAddItem").hide();
+        favorite.push($(this).val());        
+    }); 
+   
 
     $("#createProductBtn").click(function () {
         
@@ -140,23 +152,7 @@
             favorite = [];
         });               
     })
-
-
-   
-
-
-    /*$("#removebtn").click(function () {
-
-            var productsIDs = [];
-            $.each($("input[name='rowcheckbox']:checked"), function(){
-                productsIDs.push($(this).val());
-            });
-        setTimeout(function () {
-                $("#SearchResult").load(url3, { pids: productsIDs);
-        }, 3000);
-    })*/
-
-
+ 
 </script>
 
 

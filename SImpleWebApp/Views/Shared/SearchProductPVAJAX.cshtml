@@ -7,14 +7,7 @@
     $('#chkcount').text(favorite.length);
     //when checking/unchecking a checkbox push/remove a value into/from the array 
     $("input[type='checkbox']").click(function () {       
-        /*$.each($("input[name='rowcheckbox']:checked"), function () {            
-            favorite.push($(this).val());                      
-        });
-
-        $.each($("input[name='rowcheckbox']:not(:checked)"), function () {            
-            favorite.pop($(this).val());                     
-        });*/
-
+        
         if ($(this).is(":checked"))
         {
             favorite.push($(this).val());
@@ -102,13 +95,13 @@
             $(this).attr(":not(:checked)");  
             $('#chkcount').text(0);
             favorite = [];
+            
         });
 
         $("#pnamevaledit").val('');
         $("#pdescvaledit").val('');
         $("#pstockvaledit").val('');
-
-
+     
     });
    
     
@@ -125,6 +118,7 @@
         <th>Product Name</th>
         <th>Product Description</th>
         <th>Stock</th>
+        <th></th>
     </tr>
     @{
         @model List<SImpleWebApp.Models.T_products>
@@ -137,7 +131,12 @@
                 <td>@Model.ElementAt(i).P_id</td>
                 <td>@Model.ElementAt(i).P_name</td>
                 <td>@Model.ElementAt(i).P_description</td>
-                <td>@Model.ElementAt(i).P_stock</td>              
+                <td>@Model.ElementAt(i).P_stock</td>
+                <td>
+                    <button style="border: none;background: none;" id="editbtn" value="@Model.ElementAt(i).P_id">
+                        <img src="~/Images/pencil-edit-button.png" width="15px" height="15px"  alt="Edit">
+                </button>
+                </td>
             </tr>
         }
     }
